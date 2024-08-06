@@ -3,16 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- BarcodeView centered horizontally and slightly moved up -->
+    <!-- BarcodeView centered vertically and horizontally -->
     <com.journeyapps.barcodescanner.BarcodeView
         android:id="@+id/barcode_view"
-        android:layout_width="228dp"
-        android:layout_height="229dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="16dp"
-    android:layout_marginBottom="32dp"
-    />
+        android:layout_centerHorizontal="true" />
 
     <!-- Scan result TextView centered horizontally and aligned below BarcodeView -->
     <TextView
@@ -21,9 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/barcode_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-    android:padding="16dp"
-    />
+        android:layout_marginTop="10dp"
+        android:padding="16dp" />
 
     <!-- Static TextView centered horizontally and placed above BarcodeView -->
     <TextView
@@ -32,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/barcode_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-    android:text="Please Scan QR code"
-    />
+        android:layout_marginBottom="16dp"
+        android:text="Please Scan QR code" />
 </RelativeLayout>

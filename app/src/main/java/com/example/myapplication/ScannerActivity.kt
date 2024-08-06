@@ -24,7 +24,7 @@ class ScannerActivity : AppCompatActivity() {
         scanResultTextView = findViewById(R.id.scan_result)
 
         // Set the BarcodeView size
-        setBarcodeViewSize(1.0, 1.0) // 3x3 inches
+        setBarcodeViewSize(2.0, 2.0) // 3x3 inches
 
         // Configure BarcodeView
         barcodeView.decodeContinuous(object : BarcodeCallback {
