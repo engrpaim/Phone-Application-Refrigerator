@@ -31,7 +31,8 @@
         </activity>
         <activity
             android:name=".ScannerActivity"
-            android:exported="true" />
+            android:exported="true"/>
+
     </application>
 
 </manifest>

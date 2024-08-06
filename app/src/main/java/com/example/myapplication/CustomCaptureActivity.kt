@@ -16,7 +16,17 @@ class CustomCaptureActivity : CaptureActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_capture)
 
-        barcodeView = findViewById(R.id.barcode_view)
+        val barcodeViewWidth = resources.getDimensionPixelSize(R.dimen.barcode_view_width)
+        val barcodeViewHeight = resources.getDimensionPixelSize(R.dimen.barcode_view_height)
+
+        // Find the BarcodeView and adjust its size programmatically
+        val barcodeView = findViewById<BarcodeView>(R.id.barcode_view)
+        val layoutParams = barcodeView.layoutParams
+        layoutParams.width = barcodeViewWidth
+        layoutParams.height = barcodeViewHeight
+        barcodeView.setLayoutParams(layoutParams)
+
+
 
         // Configure BarcodeView
         barcodeView.decodeContinuous(object : BarcodeCallback {
@@ -39,6 +49,8 @@ class CustomCaptureActivity : CaptureActivity() {
                 }
             }
         })
+
+
     }
 
     override fun onResume() {

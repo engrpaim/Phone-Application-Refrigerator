@@ -1,54 +1,73 @@
 package com.example.myapplication
 
-
-
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentResult
+import com.journeyapps.barcodescanner.BarcodeCallback
+import com.journeyapps.barcodescanner.BarcodeView
+import com.journeyapps.barcodescanner.BarcodeResult
+import com.google.zxing.ResultPoint
 
 class ScannerActivity : AppCompatActivity() {
 
+    private lateinit var barcodeView: BarcodeView
     private lateinit var scanResultTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
 
+        barcodeView = findViewById(R.id.barcode_view)
         scanResultTextView = findViewById(R.id.scan_result)
 
-        // Start QR scan
-        startScan()
-    }
+        // Set the BarcodeView size
+        setBarcodeViewSize(1.0, 1.0) // 3x3 inches
 
-    private fun startScan() {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt("Place the QR code inside the frame")
-        integrator.setCameraId(0) // Use the rear camera
-        integrator.setBeepEnabled(true) // Optional beep on scan
-        integrator.setBarcodeImageEnabled(true) // Optional save scan image
-        integrator.setOrientationLocked(false) // Allow orientation changes
-        //integrator.setCaptureActivity(CustomCaptureActivity::class.java) // Use custom activity
-        integrator.initiateScan()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents == null) {
-                // Handle scan cancelation
-                scanResultTextView.text = "Scan canceled"
-            } else {
-                // Display scan result
-                val scannedResult = result.contents
-                scanResultTextView.text = "Scan result: $scannedResult"
+        // Configure BarcodeView
+        barcodeView.decodeContinuous(object : BarcodeCallback {
+            override fun barcodeResult(result: BarcodeResult?) {
+                result?.let {
+                    // Handle the barcode result
+                    scanResultTextView.text = "Scan result: ${it.text}"
+                    // Optionally, you can stop scanning after a successful result
+                    barcodeView.pause()
+                }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+
+            override fun possibleResultPoints(resultPoints: List<ResultPoint>?) {
+                // Optional: Handle possible result points
+                // You can use this to highlight detected points in your UI
+                resultPoints?.forEach { point ->
+                    // Handle each point (e.g., draw markers on a view)
+                }
+            }
+        })
+    }
+
+    private fun setBarcodeViewSize(widthInInches: Double, heightInInches: Double) {
+        val metrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(metrics)
+        val densityDpi = metrics.densityDpi
+
+        val widthPixels = (widthInInches * densityDpi).toInt()
+        val heightPixels = (heightInInches * densityDpi).toInt()
+
+        val layoutParams = barcodeView.layoutParams
+        layoutParams.width = widthPixels
+        layoutParams.height = heightPixels
+        barcodeView.layoutParams = layoutParams
+    }
+
+    override fun onResume() {
+        super.onResume()
+        barcodeView.resume()  // Start scanning
+    }
+
+    override fun onPause() {
+        super.onPause()
+        barcodeView.pause()  // Pause scanning
     }
 }

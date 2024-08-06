@@ -2,30 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- FrameLayout for the camera view -->
-    <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+    <!-- BarcodeView centered horizontally and slightly moved up -->
+    <com.journeyapps.barcodescanner.BarcodeView
+        android:id="@+id/barcode_view"
+        android:layout_width="228dp"
+        android:layout_height="229dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:layout_marginTop="16dp"
+    android:layout_marginBottom="32dp"
+    />
 
-        <!-- Overlay to indicate scanning area -->
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/scan_overlay" />
-
-    </FrameLayout>
-
+    <!-- Scan result TextView centered horizontally and aligned below BarcodeView -->
     <TextView
         android:id="@+id/scan_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:text="Scan result will appear here"/>
+        android:layout_below="@id/barcode_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+    android:padding="16dp"
+    />
 
+    <!-- Static TextView centered horizontally and placed above BarcodeView -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/barcode_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+    android:text="Please Scan QR code"
+    />
 </RelativeLayout>
