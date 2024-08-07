@@ -1,9 +1,9 @@
 package com.example.myapplication
 
-import android.content.Context
+
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.ViewGroup
+import android.content.Intent
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.journeyapps.barcodescanner.BarcodeCallback
@@ -24,27 +24,56 @@ class ScannerActivity : AppCompatActivity() {
         scanResultTextView = findViewById(R.id.scan_result)
 
         // Set the BarcodeView size
-        setBarcodeViewSize(2.0, 2.0) // 3x3 inches
+        setBarcodeViewSize(1.2, 1.2)
 
         // Configure BarcodeView
         barcodeView.decodeContinuous(object : BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult?) {
                 result?.let {
-                    // Handle the barcode result
-                    scanResultTextView.text = "Scan result: ${it.text}"
-                    // Optionally, you can stop scanning after a successful result
+
+                    val barcodeData = it.text;
+
+                    splitBarcodeData(barcodeData)
                     barcodeView.pause()
                 }
             }
 
             override fun possibleResultPoints(resultPoints: List<ResultPoint>?) {
-                // Optional: Handle possible result points
-                // You can use this to highlight detected points in your UI
+
                 resultPoints?.forEach { point ->
-                    // Handle each point (e.g., draw markers on a view)
+
                 }
             }
         })
+    }
+
+    private fun splitBarcodeData(barcodeData: String) {
+        // Split the barcode data by semicolon
+        val splitData = barcodeData.split(";")
+
+        // Process each piece of data
+        val processedData = splitData.map { data ->
+            // Check if the data contains an underscore
+            if (data.contains('_')) {
+                // Remove all characters after and including the underscore
+                data.substringBefore('_')
+            } else {
+                // Return the data as is if it doesn't contain an underscore
+                data
+            }
+
+        }
+
+        // Create a string with each piece of processed data on a new line
+        val displayText = processedData.joinToString(separator = ";")
+        val intent = Intent(this, Databarcode::class.java)
+        // Add the displayText as an extra in the intent
+
+        // Start the new activity
+
+        intent.putExtra("DISPLAY_TEXT", displayText)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
     }
 
     private fun setBarcodeViewSize(widthInInches: Double, heightInInches: Double) {
@@ -61,13 +90,15 @@ class ScannerActivity : AppCompatActivity() {
         barcodeView.layoutParams = layoutParams
     }
 
+
+
     override fun onResume() {
         super.onResume()
-        barcodeView.resume()  // Start scanning
+        barcodeView.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        barcodeView.pause()  // Pause scanning
+        barcodeView.pause()
     }
 }

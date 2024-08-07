@@ -18,6 +18,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".Databarcode"
+            android:exported="false" />
+        <activity
             android:name=".CustomCaptureActivity"
             android:exported="false" />
         <activity
@@ -31,8 +34,7 @@
         </activity>
         <activity
             android:name=".ScannerActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
     </application>
 
 </manifest>

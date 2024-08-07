@@ -1,33 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- BarcodeView centered vertically and horizontally -->
+
     <com.journeyapps.barcodescanner.BarcodeView
         android:id="@+id/barcode_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" >
 
-    <!-- Scan result TextView centered horizontally and aligned below BarcodeView -->
-    <TextView
-        android:id="@+id/scan_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/barcode_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:padding="16dp" />
+        <requestFocus
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.journeyapps.barcodescanner.BarcodeView>
 
-    <!-- Static TextView centered horizontally and placed above BarcodeView -->
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/barcode_view"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="113dp"
         android:layout_marginBottom="16dp"
+        android:textStyle="bold"
         android:text="Please Scan QR code" />
+
+    <ImageView
+        android:id="@+id/shinetsuLogo"
+        android:layout_width="115dp"
+        android:layout_height="171dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="-46dp"
+        app:srcCompat="@drawable/shin_etsu" />
+    <TextView
+        android:id="@+id/autoTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="-1dp"
+        android:background="#4E4D4C"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Automation Engineering © "
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/scan_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginBottom="237dp" />
+
 </RelativeLayout>
