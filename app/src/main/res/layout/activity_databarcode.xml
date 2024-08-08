@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -66,7 +67,7 @@
 
     <TextView
         android:id="@+id/dataName"
-        android:layout_width="172dp"
+        android:layout_width="242dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="9dp"
@@ -114,5 +115,34 @@
         android:text="Automation Engineering © "
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
+
+
+    <Button
+        android:id="@+id/confirmBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="205dp"
+        android:text="CONFIRM"
+        android:background="@drawable/green_button"
+        app:backgroundTint="@android:color/holo_green_dark"
+        app:icon="@drawable/check_circle_dashed_svgrepo_com"
+        app:iconTint="@android:color/white"/>
+
+    <Button
+        android:id="@+id/rescanBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="205dp"
+        android:layout_marginEnd="193dp"
+        android:background="@drawable/red_button"
+        android:text="RESCAN"
+        app:backgroundTint="@android:color/holo_red_light"
+        app:icon="@drawable/qr_code_svgrepo_com"
+        app:iconTint="@android:color/white" />
 
 </RelativeLayout>
