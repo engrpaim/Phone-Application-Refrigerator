@@ -92,44 +92,45 @@ class Databarcode : AppCompatActivity() {
             timerTextView = findViewById(R.id.timerDisplay)
             handler.post(runnable)
 
+            // Send data to server
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = try {
+                    val url = URL("http://172.17.8.60/refx/server.php")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "POST"
+                    connection.doOutput = true
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+
+
+                    val content = "param0=$data0&param1=$data1&time=$currentTime"
+
+                    connection.outputStream.use { outputStream ->
+                        outputStream.write(content.toByteArray())
+                    }
+
+                    val responseCode = connection.responseCode
+                    val inputStream = connection.inputStream
+                    val responseText = inputStream.bufferedReader().use { it.readText() }
+                    connection.disconnect()
+
+                    if (responseCode == HttpURLConnection.HTTP_OK) responseText else "Error: $responseCode"
+                } catch (e: Exception) {
+                    Log.e("NetworkTest", "Exception occurred", e)
+                    "Exception: ${e.message}"
+                }
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@Databarcode, response, Toast.LENGTH_LONG).show()
+                    Log.d("NetworkTest", response)
+                }
+
+            }
 
 
         }
         //endregion
 
-        // Send data to server
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = try {
-                val url = URL("http://172.17.8.60/refx/server.php")
-                val connection = url.openConnection() as HttpURLConnection
-                connection.requestMethod = "POST"
-                connection.doOutput = true
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
 
-
-                val content = "param0=$data0&param1=$data1&time=$currentTime"
-
-                connection.outputStream.use { outputStream ->
-                    outputStream.write(content.toByteArray())
-                }
-
-                val responseCode = connection.responseCode
-                val inputStream = connection.inputStream
-                val responseText = inputStream.bufferedReader().use { it.readText() }
-                connection.disconnect()
-
-                if (responseCode == HttpURLConnection.HTTP_OK) responseText else "Error: $responseCode"
-            } catch (e: Exception) {
-                Log.e("NetworkTest", "Exception occurred", e)
-                "Exception: ${e.message}"
-            }
-
-            withContext(Dispatchers.Main) {
-                Toast.makeText(this@Databarcode, response, Toast.LENGTH_LONG).show()
-                Log.d("NetworkTest", response)
-            }
-
-        }
     }
 
 
