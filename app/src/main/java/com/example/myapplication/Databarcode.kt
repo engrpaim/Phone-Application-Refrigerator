@@ -19,6 +19,9 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class Databarcode : AppCompatActivity() {
 
@@ -127,8 +130,13 @@ class Databarcode : AppCompatActivity() {
             }
 
 
+            // esp32
+
         }
+
+
         //endregion
+
 
 
     }
