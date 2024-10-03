@@ -55,46 +55,15 @@
         app:srcCompat="@drawable/shin_etsu" />
 
     <TextView
-        android:id="@+id/ipAddress"
+        android:id="@+id/refNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="74dp"
         android:layout_marginTop="562dp"
-        android:text="IP Address: " />
+        android:text="REFRIGERATOR NUMBER: " />
 
-    <TextView
-        android:id="@+id/macAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="586dp"
-        android:text="MAC Address: " />
-
-    <TextView
-        android:id="@+id/deviceName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/macAddress"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="73dp"
-        android:layout_marginTop="2dp"
-        android:text="Device Name: "
-        android:textColor="#000000" />
-
-    <TextView
-        android:id="@+id/serialNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/deviceName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="-1dp"
-        android:text="Serial Number: "
-        android:textColor="#000000" />
 
 
 </RelativeLayout>
