@@ -19,9 +19,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class Databarcode : AppCompatActivity() {
 
@@ -30,9 +28,41 @@ class Databarcode : AppCompatActivity() {
     private var seconds = 0
     private var data1: String? = null
     private var data0: String? = null
+    private fun makeTest() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val url = URL("http://192.166.20.57/activate") // Replace with your Arduino's IP
+                val urlConnection = url.openConnection() as HttpURLConnection
+                urlConnection.requestMethod = "GET"
+                urlConnection.connect()
+
+                val responseCode = urlConnection.responseCode
+                val message: String
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    message = "Request successful!"
+                } else {
+                    message = "Error: $responseCode"
+                }
+
+                urlConnection.disconnect()
+
+                // Switch to the Main thread to show a Toast
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@Databarcode, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@Databarcode, "Exception: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     private val runnable = object : Runnable {
         override fun run() {
+
             seconds++
             val minutes = seconds / 60
             val remainingSeconds = seconds % 60
@@ -98,7 +128,7 @@ class Databarcode : AppCompatActivity() {
             // Send data to server
             CoroutineScope(Dispatchers.IO).launch {
                 val response = try {
-                    val url = URL("http://172.17.8.60/refx/server.php")
+                    val url = URL("http://172.17.8.60/refx/controllers/data_results.php")
                     val connection = url.openConnection() as HttpURLConnection
                     connection.requestMethod = "POST"
                     connection.doOutput = true
@@ -127,9 +157,15 @@ class Databarcode : AppCompatActivity() {
                     Log.d("NetworkTest", response)
                 }
 
+
+
+
+
             }
 
 
+
+            makeTest();
             // esp32
 
         }

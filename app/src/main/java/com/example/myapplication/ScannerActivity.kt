@@ -1,14 +1,11 @@
 package com.example.myapplication
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
+
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.content.Intent
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeView
 import com.journeyapps.barcodescanner.BarcodeResult
@@ -19,8 +16,6 @@ class ScannerActivity : AppCompatActivity() {
     private lateinit var barcodeView: BarcodeView
     private lateinit var scanResultTextView: TextView
 
-    private val CAMERA_PERMISSION_REQUEST_CODE = 101
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scanner)
@@ -28,33 +23,26 @@ class ScannerActivity : AppCompatActivity() {
         barcodeView = findViewById(R.id.barcode_view)
         scanResultTextView = findViewById(R.id.scan_result)
 
-        // Check for camera permissions
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_REQUEST_CODE)
-        } else {
-            startScanning()
-        }
-
         // Set the BarcodeView size
         setBarcodeViewSize(1.2, 1.2)
-    }
 
-    private fun startScanning() {
         // Configure BarcodeView
         barcodeView.decodeContinuous(object : BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult?) {
                 result?.let {
-                    val barcodeData = it.text
+
+                    val barcodeData = it.text;
+
                     splitBarcodeData(barcodeData)
                     barcodeView.pause()
                 }
             }
 
             override fun possibleResultPoints(resultPoints: List<ResultPoint>?) {
-                resultPoints?.forEach { point -> }
+
+                resultPoints?.forEach { point ->
+
+                }
             }
         })
     }
@@ -65,16 +53,24 @@ class ScannerActivity : AppCompatActivity() {
 
         // Process each piece of data
         val processedData = splitData.map { data ->
+            // Check if the data contains an underscore
             if (data.contains('_')) {
+                // Remove all characters after and including the underscore
                 data.substringBefore('_')
             } else {
+                // Return the data as is if it doesn't contain an underscore
                 data
             }
+
         }
 
         // Create a string with each piece of processed data on a new line
         val displayText = processedData.joinToString(separator = ";")
         val intent = Intent(this, Databarcode::class.java)
+        // Add the displayText as an extra in the intent
+
+        // Start the new activity
+
         intent.putExtra("DISPLAY_TEXT", displayText)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
@@ -94,6 +90,8 @@ class ScannerActivity : AppCompatActivity() {
         barcodeView.layoutParams = layoutParams
     }
 
+
+
     override fun onResume() {
         super.onResume()
         barcodeView.resume()
@@ -102,17 +100,5 @@ class ScannerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         barcodeView.pause()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startScanning()
-            } else {
-                // Handle the case where permission is denied
-                // You might want to show a message to the user
-            }
-        }
     }
 }
